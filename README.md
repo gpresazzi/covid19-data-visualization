@@ -9,7 +9,7 @@ Example of histogram showing the number of people currently confirmed
 ![histogram](https://github.com/gpresazzi/covid19-data-visualization/blob/master/images/histogram_total.png)
 
 Example of line chart for the confirmed infected people by day
-![line chart](https://github.com/gpresazzi/covid19-data-visualization/blob/master/images/line_chart.png)
+![line chart](https://github.com/gpresazzi/covid19-data-visualization/blob/master/images/lines_chart.png)
 
 
 
