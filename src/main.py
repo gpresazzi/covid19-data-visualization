@@ -16,7 +16,7 @@ def main():
         date_str = DateHelper.previous_day_str(date_str)
     yday_str = DateHelper.previous_day_str(date_str)
 
-    # Total of contagios in the last day
+    # Total of contagions in the last day
     chart1 = confirmed_case.get_histogram_per_day(date_str)
 
     # 
@@ -25,11 +25,10 @@ def main():
     # Higher increments in the last day
     chart3 = confirmed_case.get_histogram_increment_last_day(date_str)
 
+    chart4 = confirmed_case.get_chart_increment_per_day(date_str)
+
     # Show charts
-    chart = alt.vconcat()
-    chart |= chart1
-    chart |= chart2
-    chart |= chart3
+    chart = alt.vconcat(chart4, chart2, chart3, chart1)
     chart.serve()
 
 
