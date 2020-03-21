@@ -33,5 +33,13 @@ git clone https://github.com/CSSEGISandData/COVID-19.git
 
 - 4 - run
 ```bash
-python src/main.py
+1. python src/main.py confirmed
+2. python src/main.py recovered
+3. python src/main.py death
+```
+
+Extra args:
+```bash
+-f for the format to use (empty or 'html')
+-o output file
 ```

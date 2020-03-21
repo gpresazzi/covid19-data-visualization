@@ -4,14 +4,13 @@ import pandas as pandas
 from date_helper import DateHelper
 
 
-class CovidConfirmed:
+class BaseCharts:
     col_name_countries = "Country/Region"
 
-    def __init__(self, num_countries=20):
-        csv_file = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv"
+    def __init__(self, csv_file_path, num_countries=20):
         dir_path = os.getcwd()
         self.num_countries = num_countries
-        csv_confirmed = os.path.join(dir_path, csv_file)
+        csv_confirmed = os.path.join(dir_path, csv_file_path)
         self._data = pandas.read_csv(csv_confirmed)
         print(self._data.head())
 
@@ -57,7 +56,8 @@ class CovidConfirmed:
             data_tmp[self.col_name_countries] = self._data[self.col_name_countries]
             data_tmp[col_name_date] = pandas.to_datetime(current_date_str, format='%m/%d/%y', errors='ignore')
             data_tmp[col_name_value] = self._data[current_date_str] - self._data[previous_day]
-            data_tmp = data_tmp.groupby([self.col_name_countries, col_name_date], as_index=False).agg({col_name_value: "sum"})
+            data_tmp = data_tmp.groupby([self.col_name_countries, col_name_date], as_index=False).agg(
+                {col_name_value: "sum"})
 
             data_1 = pandas.concat([data_1, data_tmp], ignore_index=True)
             current_date_str = previous_day
