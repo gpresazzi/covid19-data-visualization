@@ -38,22 +38,19 @@ def main():
     yday_str = DateHelper.previous_day_str(date_str)
 
     # Total of contagions in the last day
-    chart1 = charts.get_histogram_per_day(date_str)
-    chart2 = charts.get_histogram_per_day(yday_str)
-    chart3 = charts.get_histogram_increment_last_day(date_str)
+    chart_tot_per_day = charts.get_histogram_per_day(date_str)
+    chart_increment_last = charts.get_histogram_increment_last_day(date_str)
     chart4 = charts.get_chart_increment_per_day(date_str)
 
-    if args.format == OutputFormat.html:
-        # Show charts
-        chart = alt.vconcat(chart4, chart2, chart3, chart1)
+    chart_row = alt.hconcat(chart_tot_per_day, chart_increment_last)
+    chart = alt.vconcat(chart4, chart_row)
 
+    if args.format == OutputFormat.html:
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
         chart.save(filename)
         print("{} generated successfully !". format(filename))
     else:
-        # Show charts
-        chart = alt.vconcat(chart4, chart2, chart3, chart1)
         chart.serve()
 
 

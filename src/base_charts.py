@@ -25,7 +25,7 @@ class BaseCharts:
 
         chart = alt.Chart(chart_data).mark_bar().encode(
             x=alt.X(self.col_name_countries, sort='-x'),
-            y=alt.Y(day_str, axis=alt.Axis(format='N', title='TOT confirmed cases {}'.format(day_str)))
+            y=alt.Y(day_str, axis=alt.Axis(format='N', title='TOT cases {}'.format(day_str)))
         ).interactive()
         return chart
 
@@ -34,6 +34,7 @@ class BaseCharts:
         col_name_increments = "increments"
         chart_data[col_name_increments] = self._data[day_str] - self._data[DateHelper.previous_day_str(day_str)]
         chart_data = self._data[[self.col_name_countries, col_name_increments]]
+        chart_data = chart_data.groupby(self.col_name_countries, as_index=False).agg({col_name_increments: "sum"})
         chart_data = chart_data.sort_values(by=[col_name_increments], ascending=False)
         chart_data = chart_data[:self.num_countries]
 
