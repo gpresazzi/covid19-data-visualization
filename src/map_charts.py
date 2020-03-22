@@ -25,9 +25,8 @@ class MapCharts:
         )
         return data_set
 
-    def get_map(self, day_str):
+    def get_map(self, day_str, title=""):
         chart_data = self._prepare_dataset(day_str)
-        print(chart_data.head())
 
         source = alt.topo_feature(data.world_110m.url, 'countries')
         background = alt.Chart(source).mark_geoshape(
@@ -37,16 +36,25 @@ class MapCharts:
             width=1000, height=500
         ).project("equirectangular")
 
+        hover = alt.selection(type='single', on='mouseover', nearest=False,
+                              fields=[self.col_lat, self.col_long])
+        text = background.mark_text(dy=-5, align='right').encode(
+            alt.Text(f'{self.col_name_countries}:N', type='nominal'),
+            opacity=alt.condition(~hover, alt.value(0), alt.value(1))
+        )
+
         points = alt.Chart(chart_data).mark_circle().encode(
             latitude=f"{self.col_lat}:Q",
             longitude=f"{self.col_long}:Q",
             size=alt.Size(f"{day_str}:Q", scale=alt.Scale(range=[0, 7000]), legend=None),
             order=alt.Order(f"{day_str}:Q", sort="descending"),
             tooltip=[f'{self.col_name_countries}:N', f'{day_str}:Q']
+        ).add_selection(
+            hover
+        ).properties(
+            title=title
         )
 
-        chart = alt.layer(
-            background, points
-        )
+        chart = alt.layer(background, points, text)
 
         return chart

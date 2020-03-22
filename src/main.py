@@ -40,13 +40,14 @@ def main():
     # Total of contagions in the last day
     chart_tot_per_day = charts.get_histogram_per_day(date_str)
     chart_increment_last = charts.get_histogram_increment_last_day(date_str)
-    chart4 = charts.get_chart_increment_per_day(date_str)
+    chart_lines_incr = charts.get_chart_increment_per_day(date_str,
+                                                          title=f"Day by day increment of {args.command} patients")
 
     map_builder = MapCharts(csv_confirmed)
-    map_chart = map_builder.get_map(date_str)
+    map_chart = map_builder.get_map(date_str, f"Worldwide map of {args.command} patients")
 
     chart_row = alt.hconcat(chart_tot_per_day, chart_increment_last)
-    chart = alt.vconcat(map_chart, chart4, chart_row)
+    chart = alt.vconcat(map_chart, chart_lines_incr, chart_row)
 
     if args.format == OutputFormat.html:
         if not os.path.exists(output_dir):

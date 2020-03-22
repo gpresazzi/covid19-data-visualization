@@ -44,9 +44,20 @@ class BaseCharts:
         ).interactive()
         return chart
 
-    def get_chart_increment_per_day(self, day_str, num_previous_days=30):
+    def get_chart_increment_per_day(self, day_str, num_previous_days=30, title=""):
         col_name_date = "date"
         col_name_value = "increments per day"
+
+        # Get the top affected countries
+        top_countries_data = self._data.groupby(self.col_name_countries, as_index=False).agg({day_str: "sum"})
+        top_countries = top_countries_data.sort_values(
+            by=[day_str], ascending=False
+        )[:self.num_countries][self.col_name_countries]
+
+        print(top_countries)
+        # Filter only the top countries data
+        chart_data = self._data[self._data["Country/Region"].isin(top_countries.values)]
+        print(chart_data)
 
         data_1 = pandas.DataFrame()
         current_date_str = day_str
@@ -54,9 +65,9 @@ class BaseCharts:
             previous_day = DateHelper.previous_day_str(current_date_str)
 
             data_tmp = pandas.DataFrame()
-            data_tmp[self.col_name_countries] = self._data[self.col_name_countries]
+            data_tmp[self.col_name_countries] = chart_data[self.col_name_countries]
             data_tmp[col_name_date] = pandas.to_datetime(current_date_str, format='%m/%d/%y', errors='ignore')
-            data_tmp[col_name_value] = self._data[current_date_str] - self._data[previous_day]
+            data_tmp[col_name_value] = chart_data[current_date_str] - chart_data[previous_day]
             data_tmp = data_tmp.groupby([self.col_name_countries, col_name_date], as_index=False).agg(
                 {col_name_value: "sum"})
 
@@ -68,7 +79,7 @@ class BaseCharts:
         line = alt.Chart(data_1).mark_line().encode(
             y=alt.Y("{}:Q".format(col_name_value)),
             x=alt.X('{}:T'.format(col_name_date), axis=alt.Axis(title='Date'.upper(), format="%d/%m/%Y")),
-            color=alt.Color('{}'.format(self.col_name_countries), legend=None),
+            color=alt.Color('{}'.format(self.col_name_countries), scale=alt.Scale(scheme='category20c'), legend=alt.Legend(orient='right')),
             tooltip='{}'.format(self.col_name_countries),
         )
 
@@ -94,6 +105,8 @@ class BaseCharts:
             x=alt.X('{}:T'.format(col_name_date)),
         ).transform_filter(
             nearest
+        ).properties(
+            title=title
         )
 
         chart = alt.layer(
