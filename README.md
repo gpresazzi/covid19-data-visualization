@@ -5,6 +5,8 @@ This is a very simple project to generate some useful charts and represent how t
 
 ## Examples 
 
+[DEMO](http://gpresazzi.duckdns.org/)
+
 Example of histogram showing the number of people currently confirmed
 ![histogram](https://github.com/gpresazzi/covid19-data-visualization/blob/master/images/histogram_total.png)
 
@@ -24,7 +26,7 @@ git clone https://github.com/gpresazzi/covid19-data-visualization.git
 cd covid19-data-visualization
 python -m venv venv
 source venv/bin/activate
-pip install altair
+pip install altair vega_datasets
 ```
 - 3 - clone data set
 ```bash

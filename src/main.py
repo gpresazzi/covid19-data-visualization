@@ -3,6 +3,7 @@ import sys
 import datetime
 import altair as alt
 from base_charts import BaseCharts
+from map_charts import MapCharts
 from date_helper import DateHelper
 from cli_args import CLIArgs, OutputFormat
 
@@ -18,7 +19,6 @@ output_dir = "output/"
 
 def main():
     args = CLIArgs.read_args(sys.argv[1:])
-
     if args.command == CLIArgs.CONFIRMED_COMMAND:
         charts = BaseCharts(csv_confirmed)
     elif args.command == CLIArgs.RECOVERED_COMMAND:
@@ -42,8 +42,11 @@ def main():
     chart_increment_last = charts.get_histogram_increment_last_day(date_str)
     chart4 = charts.get_chart_increment_per_day(date_str)
 
+    map_builder = MapCharts(csv_confirmed)
+    map_chart = map_builder.get_map(date_str)
+
     chart_row = alt.hconcat(chart_tot_per_day, chart_increment_last)
-    chart = alt.vconcat(chart4, chart_row)
+    chart = alt.vconcat(map_chart, chart4, chart_row)
 
     if args.format == OutputFormat.html:
         if not os.path.exists(output_dir):

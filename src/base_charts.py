@@ -10,8 +10,8 @@ class BaseCharts:
     def __init__(self, csv_file_path, num_countries=20):
         dir_path = os.getcwd()
         self.num_countries = num_countries
-        csv_confirmed = os.path.join(dir_path, csv_file_path)
-        self._data = pandas.read_csv(csv_confirmed)
+        csv_data = os.path.join(dir_path, csv_file_path)
+        self._data = pandas.read_csv(csv_data)
         print(self._data.head())
 
     def has_coloumn(self, col_name):
@@ -68,8 +68,8 @@ class BaseCharts:
         line = alt.Chart(data_1).mark_line().encode(
             y=alt.Y("{}:Q".format(col_name_value)),
             x=alt.X('{}:T'.format(col_name_date), axis=alt.Axis(title='Date'.upper(), format="%d/%m/%Y")),
-            color='{}'.format(self.col_name_countries),
-            tooltip='{}'.format(self.col_name_countries)
+            color=alt.Color('{}'.format(self.col_name_countries), legend=None),
+            tooltip='{}'.format(self.col_name_countries),
         )
 
         selectors = alt.Chart(data_1).mark_point().encode(

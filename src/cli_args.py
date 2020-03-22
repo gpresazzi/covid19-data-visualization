@@ -21,7 +21,7 @@ class CLIArgs:
         common_args = argparse.ArgumentParser(add_help=False)
         common_args.add_argument('--verbose', dest='verbose', action='count', help="Add verbosity")
         common_args.add_argument('--format', '-f', dest='format', nargs='?', type=OutputFormat, choices=list(OutputFormat))
-        common_args.add_argument('--output', '-o', dest='output', help="File path")
+        common_args.add_argument('--output', '-o', dest='output', nargs='?', help="File path")
 
         # retrieve_routers args
         confirmed_case_parser = argparse.ArgumentParser(add_help=False)
