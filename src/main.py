@@ -48,8 +48,10 @@ def main():
 
     map_chart = map_builder.get_map(date_str, f"Worldwide map of {args.command} patients")
 
+    chart_lines_tot = charts.get_chart_per_day(date_str, title="Total in top 20 countries")
+
     chart_row = alt.hconcat(chart_tot_per_day, chart_increment_last)
-    chart = alt.vconcat(map_chart, chart_lines_incr, chart_row)
+    chart = alt.vconcat(map_chart, chart_lines_tot, chart_lines_incr, chart_row)
 
     if args.format == OutputFormat.html:
         if not os.path.exists(output_dir):
