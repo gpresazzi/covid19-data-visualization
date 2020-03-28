@@ -118,9 +118,9 @@ class BaseCharts:
 
         return chart
 
-    def get_chart_per_day(self, day_str, num_previous_days=55, title=""):
+    def get_chart_total_per_day(self, day_str, num_previous_days=55, title=""):
         col_name_date = "date"
-        col_name_value = "increments per day"
+        col_name_value = "totals per day"
 
         # Get the top affected countries
         top_countries_data = self._data.groupby(self.col_name_countries, as_index=False).agg({day_str: "sum"})
