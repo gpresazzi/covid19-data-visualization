@@ -7,7 +7,7 @@ from date_helper import DateHelper
 class BaseCharts:
     col_name_countries = "Country/Region"
 
-    def __init__(self, csv_file_path, num_countries=15):
+    def __init__(self, csv_file_path, num_countries=10):
         dir_path = os.getcwd()
         self.num_countries = num_countries
         csv_data = os.path.join(dir_path, csv_file_path)
