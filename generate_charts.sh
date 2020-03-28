@@ -18,5 +18,5 @@ python3 src/main.py recovered -f json -o output/recovered.json
 
 # Using template to generate HTML
 sed 's/chart.json/deaths.json/g' html/template.html > output/deaths.html
-sed 's/chart.json/deaths.json/g' html/template.html > output/confirmed.html
-sed 's/chart.json/deaths.json/g' html/template.html > output/confirmed.html
+sed 's/chart.json/confirmed.json/g' html/template.html > output/confirmed.html
+sed 's/chart.json/recovered.json/g' html/template.html > output/recovered.html
