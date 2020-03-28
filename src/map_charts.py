@@ -16,14 +16,28 @@ class MapCharts:
     def _prepare_dataset(self, day_str):
         data_set = self._data[[self.col_name_countries, "Province/State", self.col_lat, self.col_long, day_str]]
 
-        data_set = data_set.groupby([self.col_name_countries], as_index=False).agg(
+        # Get matrix Country + max day
+        tmp_data = data_set
+        tab_max = self._data.groupby(self.col_name_countries, as_index=False).agg({day_str: "max"})
+        keys = list(tab_max.columns.values)
+        i1 = tmp_data.set_index(keys).index
+        i2 = tab_max.set_index(keys).index
+
+        # Get country + coordinates with max value (we want to remove small islands)
+        country_coord = tmp_data[i1.isin(i2)][[self.col_name_countries, self.col_lat, self.col_long]]
+        print(country_coord)
+
+        # Get Country + sum of infected
+        tmp_data = data_set
+        tmp_data = tmp_data.groupby([self.col_name_countries], as_index=False).agg(
             {
-                self.col_long: "mean",
-                self.col_lat: "mean",
                 day_str: "sum"
             }
         )
-        return data_set
+
+        # Merge the 2 tables
+        result = pandas.merge(tmp_data, country_coord, on=self.col_name_countries)
+        return result
 
     def get_map(self, day_str, title=""):
         chart_data = self._prepare_dataset(day_str)

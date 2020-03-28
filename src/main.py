@@ -10,9 +10,9 @@ from cli_args import CLIArgs, OutputFormat
 start_date = datetime.date(2020, 1, 22)
 today = datetime.datetime.now()
 
-csv_confirmed = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv"
-cvs_recovered = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv"
-cvs_death = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv"
+csv_confirmed = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+cvs_recovered = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+cvs_death = "COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
 
 output_dir = "output/"
 
@@ -50,6 +50,11 @@ def main():
     chart = alt.vconcat(map_chart, chart_lines_incr, chart_row)
 
     if args.format == OutputFormat.html:
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
+        chart.save(filename)
+        print("{} generated successfully !". format(filename))
+    elif args.format == OutputFormat.json:
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
         chart.save(filename)

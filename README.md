@@ -7,6 +7,10 @@ This is a very simple project to generate some useful charts and represent how t
 
 [DEMO](http://gpresazzi.duckdns.org/)
 
+Example of map
+![histogram](https://github.com/gpresazzi/covid19-data-visualization/blob/master/images/map.png)
+
+
 Example of histogram showing the number of people currently confirmed
 ![histogram](https://github.com/gpresazzi/covid19-data-visualization/blob/master/images/histogram_total.png)
 

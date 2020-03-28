@@ -4,6 +4,7 @@ from enum import Enum
 
 class OutputFormat(Enum):
     html = 'html'
+    json = 'json'
 
     def __str__(self):
         return self.value

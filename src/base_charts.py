@@ -54,10 +54,10 @@ class BaseCharts:
             by=[day_str], ascending=False
         )[:self.num_countries][self.col_name_countries]
 
-        print(top_countries)
+        # print(top_countries)
         # Filter only the top countries data
         chart_data = self._data[self._data["Country/Region"].isin(top_countries.values)]
-        print(chart_data)
+        # print(chart_data)
 
         data_1 = pandas.DataFrame()
         current_date_str = day_str
@@ -79,7 +79,8 @@ class BaseCharts:
         line = alt.Chart(data_1).mark_line().encode(
             y=alt.Y("{}:Q".format(col_name_value)),
             x=alt.X('{}:T'.format(col_name_date), axis=alt.Axis(title='Date'.upper(), format="%d/%m/%Y")),
-            color=alt.Color('{}'.format(self.col_name_countries), scale=alt.Scale(scheme='category20c'), legend=alt.Legend(orient='right')),
+            color=alt.Color('{}'.format(self.col_name_countries), scale=alt.Scale(scheme='category20c'), 
+                            legend=alt.Legend(orient='right')),
             tooltip='{}'.format(self.col_name_countries),
         )
 
