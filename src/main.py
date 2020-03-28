@@ -21,10 +21,13 @@ def main():
     args = CLIArgs.read_args(sys.argv[1:])
     if args.command == CLIArgs.CONFIRMED_COMMAND:
         charts = BaseCharts(csv_confirmed)
+        map_builder = MapCharts(csv_confirmed)
     elif args.command == CLIArgs.RECOVERED_COMMAND:
         charts = BaseCharts(cvs_recovered)
+        map_builder = MapCharts(cvs_recovered)
     elif args.command == CLIArgs.DEATHS_COMMAND:
         charts = BaseCharts(cvs_death)
+        map_builder = MapCharts(cvs_death)
 
     if not args.output:
         filename = os.path.join(output_dir, "chart-{}.html".format(args.command))
@@ -43,7 +46,6 @@ def main():
     chart_lines_incr = charts.get_chart_increment_per_day(date_str,
                                                           title=f"Day by day increment of {args.command} patients")
 
-    map_builder = MapCharts(csv_confirmed)
     map_chart = map_builder.get_map(date_str, f"Worldwide map of {args.command} patients")
 
     chart_row = alt.hconcat(chart_tot_per_day, chart_increment_last)
